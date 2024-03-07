@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro"
+import {theSolutionDescription, theSolutionTitle} from "../lib/utils"
+import {getParaulogicSolutions} from "../lib/data"
+import PageTitle from "../components/PageTitle.astro"
+import ParaulogicBoard from "../components/ParaulogicBoard.astro";
+import GameCard from "../components/GameCard.astro";
+import {PasswordInput} from "../components/ui/password-input";
+
+const {letters, words}: ParaulogicType = await getParaulogicSolutions()
+
+const title = theSolutionTitle('Paraulògic')
+const description = theSolutionDescription('Paraulògic', Object.values(words)[0].toString())
+---
+
+<Layout title={title} description={description}>
+  <PageTitle>{title}</PageTitle>
+
+  <ParaulogicBoard letters={letters} />
+
+  <div class="grid sm:grid-cols-3 gap-4 sm:gap-6 uppercase">
+    {Object.values(words).map((word: string) => {
+      return (
+        <GameCard class="bg-muted/50">
+          <PasswordInput
+            value={word}
+            readOnly
+            className="bg-muted/50 border-0 font-bold tracking-wider text-center uppercase focus-visible:ring-0 focus-visible:border-0"
+            client:load
+          />
+        </GameCard>
+      )
+    })}
+  </div>
+</Layout>

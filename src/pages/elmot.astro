@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {theSolutionDescription, theSolutionTitle} from "../lib/utils";
+import PageTitle from "../components/PageTitle.astro";
+import {getElmotSolutions} from "../lib/data";
+import Solution from "../components/Solution.astro";
+import Letter from "../components/Letter.astro";
+
+const solution = await getElmotSolutions()
+const letters = [...solution]
+
+const title = theSolutionTitle('El Mot')
+const description = theSolutionDescription('El Mot', solution)
+---
+
+<Layout title={title} description={description}>
+  <PageTitle>{title}</PageTitle>
+  <Solution>
+    {letters.map((letter) => (
+      <Letter>{letter}</Letter>
+    ))}
+  </Solution>
+</Layout>

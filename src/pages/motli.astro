@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {theSolutionDescription, theSolutionTitle} from "../lib/utils";
+import {getMotliSolutions} from "../lib/data";
+import PageTitle from "../components/PageTitle.astro";
+import Solution from "../components/Solution.astro";
+import Letter from "../components/Letter.astro";
+
+const solution = await getMotliSolutions()
+const letters = [...solution]
+
+const title = theSolutionTitle('Mot-li')
+const description = theSolutionDescription('Mot-li', solution)
+---
+
+<Layout title={title} description={description}>
+  <PageTitle>{title}</PageTitle>
+  <Solution>
+    {letters.map((letter) => (
+      <Letter>{letter}</Letter>
+    ))}
+  </Solution>
+</Layout>

@@ -1,0 +1,54 @@
+---
+import '@/styles/globals.css'
+import {ModeToggle} from "../components/ModeToggle";
+import {dateNow} from "../lib/utils";
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ca">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+	</head>
+	<body class="grid grid-rows-[auto_1fr_auto] h-dvh min-h-dvh max-h-dvh">
+		<header class="p-4 flex gap-4 items-center justify-between">
+			<a href="/" class="font-bold">Solucions Paraulògic, El mot i Mot-li</a>
+			<ModeToggle client:load />
+		</header>
+		<main class="container py-7 flex flex-col gap-4 items-stretch justify-center text-center">
+			<slot />
+		</main>
+		<footer class="p-4 text-center">
+			<p class="text-sm italic"><span class="font-bold">Ultima actualització:</span> {dateNow}</p>
+		</footer>
+	</body>
+</html>
+
+<script is:inline>
+	const getThemePreference = () => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+	const isDark = getThemePreference() === 'dark';
+	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+	if (typeof localStorage !== 'undefined') {
+		const observer = new MutationObserver(() => {
+			const isDark = document.documentElement.classList.contains('dark');
+			localStorage.setItem('theme', isDark ? 'dark' : 'light');
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+</script>

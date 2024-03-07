@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro'
+import {games} from "../lib/data"
+import PageTitle from "../components/PageTitle.astro"
+import GameCard from "../components/GameCard.astro"
+
+const title = 'Solucions Paraulògic, El Mot i Mot-li'
+const description = 'Descobreix la solució d\'avui'
+---
+
+<Layout title={title} description={description}>
+	<PageTitle>{title}</PageTitle>
+	<p>{description}</p>
+	<div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
+		{games.map(({name, href}) => {
+			return (
+				<GameCard href={href}>
+					{name}
+				</GameCard>
+			)
+		})}
+	</div>
+</Layout>

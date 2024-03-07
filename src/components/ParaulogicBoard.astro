@@ -1,0 +1,23 @@
+---
+interface Props {
+  letters: Array<string>;
+}
+
+const { letters } = Astro.props;
+---
+
+<ul class="grid gap-2 grid-cols-[repeat(6,2fr)] w-[250px] mx-auto overflow-hidden [&>*:nth-child(5n+1)]:col-start-2 [&>*:nth-child(4)>span>span]:bg-red-500 [&>*:nth-child(4)>span>span>span]:text-background pb-10">
+  {letters.map((letter) => {
+    return (
+      <li class="relative col-span-2 aspect-[1.1/1]">
+        <span class="absolute inset-0 w-full pb-[115.47%] overflow-hidden -rotate-[60deg] skew-y-[30deg]">
+          <span class:list={['absolute inset-0 block w-full h-full text-center overflow-hidden', letter ? 'bg-[#63bcca]' : 'bg-[#ccc]']} style="transform: skewY(-30deg) rotate(60deg);">
+            <span class="absolute inset-0 w-full p-[38%] font-bold text-foreground user-none uppercase">
+              {letter}
+            </span>
+          </span>
+        </span>
+      </li>
+    )
+  })}
+</ul>
